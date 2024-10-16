@@ -126,3 +126,6 @@ config.ini
 
 # .csv files
 *.csv
+
+# .xlsm files
+*.xlsm

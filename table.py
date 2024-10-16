@@ -27,15 +27,6 @@ def parse_item_details(xml_data):
     shipping_cost_elem = root.find('ebay:Item/ebay:ShippingDetails/ebay:ShippingServiceOptions/ebay:ShippingServiceCost', ns)
     shipping_cost = shipping_cost_elem.text if shipping_cost_elem is not None else 'N/A'
     
-    item_specifics = root.find('ebay:Item/ebay:ItemSpecifics', ns)
-    specifics = []
-    if item_specifics:
-        for specific in item_specifics.findall('ebay:NameValueList', ns):
-            name = specific.find('ebay:Name', ns).text
-            value = specific.find('ebay:Value', ns).text
-            specifics.append(f"{name}: {value}")
-    specifics_str = '; '.join(specifics)
-    
     picture_urls = [pic.text for pic in root.findall('ebay:Item/ebay:PictureDetails/ebay:PictureURL', ns)]
     picture_urls_str = ', '.join(picture_urls)
     
@@ -82,7 +73,6 @@ def parse_item_details(xml_data):
         'StartTime': start_time,
         'EndTime': end_time,
         'ShippingCost': shipping_cost,
-        'ItemSpecifics': specifics_str,
         'PictureURLs': picture_urls_str,
         'Brand': brand,
         'BuyItNowPrice': buy_it_now_price,
@@ -112,7 +102,7 @@ def main():
         fieldnames = [
             'ItemID', 'Title', 'Price', 'Location', 'Seller', 'ListingURL', 'Quantity', 
             'Description', 'Condition', 'ConditionID', 'Category', 'StartTime', 'EndTime', 
-            'ShippingCost', 'ItemSpecifics', 'PictureURLs', 'Brand', 'BuyItNowPrice', 
+            'ShippingCost', 'PictureURLs', 'Brand', 'BuyItNowPrice', 
             'ConvertedStartPrice', 'ConvertedCurrentPrice', 'PostalCode', 'FeedbackScore', 
             'PositiveFeedbackPercent', 'ListingStatus', 'ReturnsAccepted', 'DispatchTimeMax', 
             'WeightMajor', 'WeightMinor'
