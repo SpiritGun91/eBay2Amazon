@@ -119,7 +119,8 @@ dmypy.json
 .vscode/
 
 # .txt files
-*.txt
+items.txt
+output.txt
 
 # Config files
 config.ini
