@@ -23,6 +23,7 @@ async def fetch_item_details(session, item_number):
         <ErrorLanguage>en_US</ErrorLanguage>
         <WarningLevel>High</WarningLevel>
         <ItemID>{item_number}</ItemID>
+        <DetailLevel>ReturnAll</DetailLevel>
     </GetItemRequest>"""
     
     async with session.post(EBAY_API_ENDPOINT, headers=headers, data=xml_payload) as response:
