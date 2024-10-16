@@ -42,6 +42,31 @@ def parse_item_details(xml_data):
     brand_elem = root.find('ebay:Item/ebay:ProductListingDetails/ebay:BrandMPN/ebay:Brand', ns)
     brand = brand_elem.text if brand_elem is not None else 'N/A'
     
+    buy_it_now_price_elem = root.find('ebay:Item/ebay:BuyItNowPrice', ns)
+    buy_it_now_price = buy_it_now_price_elem.attrib['currencyID'] + " " + buy_it_now_price_elem.text if buy_it_now_price_elem is not None else 'N/A'
+    
+    converted_start_price_elem = root.find('ebay:Item/ebay:ListingDetails/ebay:ConvertedStartPrice', ns)
+    converted_start_price = converted_start_price_elem.attrib['currencyID'] + " " + converted_start_price_elem.text if converted_start_price_elem is not None else 'N/A'
+    
+    converted_current_price_elem = root.find('ebay:Item/ebay:SellingStatus/ebay:ConvertedCurrentPrice', ns)
+    converted_current_price = converted_current_price_elem.attrib['currencyID'] + " " + converted_current_price_elem.text if converted_current_price_elem is not None else 'N/A'
+    
+    postal_code = root.find('ebay:Item/ebay:PostalCode', ns).text if root.find('ebay:Item/ebay:PostalCode', ns) is not None else 'N/A'
+    
+    feedback_score = root.find('ebay:Item/ebay:Seller/ebay:FeedbackScore', ns).text if root.find('ebay:Item/ebay:Seller/ebay:FeedbackScore', ns) is not None else 'N/A'
+    
+    positive_feedback_percent = root.find('ebay:Item/ebay:Seller/ebay:PositiveFeedbackPercent', ns).text if root.find('ebay:Item/ebay:Seller/ebay:PositiveFeedbackPercent', ns) is not None else 'N/A'
+    
+    listing_status = root.find('ebay:Item/ebay:SellingStatus/ebay:ListingStatus', ns).text if root.find('ebay:Item/ebay:SellingStatus/ebay:ListingStatus', ns) is not None else 'N/A'
+    
+    returns_accepted = root.find('ebay:Item/ebay:ReturnPolicy/ebay:ReturnsAccepted', ns).text if root.find('ebay:Item/ebay:ReturnPolicy/ebay:ReturnsAccepted', ns) is not None else 'N/A'
+    
+    dispatch_time_max = root.find('ebay:Item/ebay:DispatchTimeMax', ns).text if root.find('ebay:Item/ebay:DispatchTimeMax', ns) is not None else 'N/A'
+    
+    weight_major = root.find('ebay:Item/ebay:ShippingPackageDetails/ebay:WeightMajor', ns).text if root.find('ebay:Item/ebay:ShippingPackageDetails/ebay:WeightMajor', ns) is not None else 'N/A'
+    
+    weight_minor = root.find('ebay:Item/ebay:ShippingPackageDetails/ebay:WeightMinor', ns).text if root.find('ebay:Item/ebay:ShippingPackageDetails/ebay:WeightMinor', ns) is not None else 'N/A'
+    
     return {
         'ItemID': item_id,
         'Title': title,
@@ -59,7 +84,18 @@ def parse_item_details(xml_data):
         'ShippingCost': shipping_cost,
         'ItemSpecifics': specifics_str,
         'PictureURLs': picture_urls_str,
-        'Brand': brand
+        'Brand': brand,
+        'BuyItNowPrice': buy_it_now_price,
+        'ConvertedStartPrice': converted_start_price,
+        'ConvertedCurrentPrice': converted_current_price,
+        'PostalCode': postal_code,
+        'FeedbackScore': feedback_score,
+        'PositiveFeedbackPercent': positive_feedback_percent,
+        'ListingStatus': listing_status,
+        'ReturnsAccepted': returns_accepted,
+        'DispatchTimeMax': dispatch_time_max,
+        'WeightMajor': weight_major,
+        'WeightMinor': weight_minor
     }
 
 def main():
@@ -76,7 +112,10 @@ def main():
         fieldnames = [
             'ItemID', 'Title', 'Price', 'Location', 'Seller', 'ListingURL', 'Quantity', 
             'Description', 'Condition', 'ConditionID', 'Category', 'StartTime', 'EndTime', 
-            'ShippingCost', 'ItemSpecifics', 'PictureURLs', 'Brand'
+            'ShippingCost', 'ItemSpecifics', 'PictureURLs', 'Brand', 'BuyItNowPrice', 
+            'ConvertedStartPrice', 'ConvertedCurrentPrice', 'PostalCode', 'FeedbackScore', 
+            'PositiveFeedbackPercent', 'ListingStatus', 'ReturnsAccepted', 'DispatchTimeMax', 
+            'WeightMajor', 'WeightMinor'
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
